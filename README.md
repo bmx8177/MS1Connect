@@ -1,6 +1,6 @@
 # MS1Connect
 
-**9 June 2022: Please note that this version of MS1Connect is not fully functional at this time. We hope to upload the remaining code within a week or so. If you want me to try MS1Connect on your data please contact me and I will be happy to help.**
+**9 June 2022: Thanks for those who chatted with me at ASMS. Please note that this version of MS1Connect is not fully functional at this time. We hope to upload the remaining code within a week or so. If you want me to try MS1Connect on your data please contact me and I will be happy to help.**
 
 MS1Connect is a tool that scores the similarity between a pair of mass spectrometry runs. This task is particularly challenging because data can be acquired under different experimental procotols. MS1Connect solves this problem by framing the problem as a maximum bipartite matching problem and by only using data fom intact peptide (MS1) scans.
 
