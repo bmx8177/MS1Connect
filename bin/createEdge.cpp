@@ -157,10 +157,10 @@ int main(int argc, char * argv[])
 			edgeCnt += 1;
 		}
 
-		if (i%50000==0) {
-			auto timeNow = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-			std::cout << i << '\t' << ctime(&timeNow);
-		}
+		//if (i%50000==0) {
+		//	auto timeNow = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+		//	std::cout << i << '\t' << ctime(&timeNow);
+		//}
 
 	}
 	outFile.close();
