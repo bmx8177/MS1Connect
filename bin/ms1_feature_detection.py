@@ -8,8 +8,7 @@ LOGGER = logging.getLogger(__name__)
 min_pTIC = .05
 max_pTIC = .95
 
-# Prepare data loading (save memory by only
-# loading MS1 spectra into memory)
+# Save memory by only loading MS1 spectra into memory
 options = PeakFileOptions()
 options.setMSLevels([1])
 
@@ -22,16 +21,18 @@ def calcTIC(exp):
 			tic += sum(i)
 	return(tic)
 
-def peakPick(file_name, folder_loc):
+def peakPick(file_name, folder_loc, top_n):
 	"""Performs MS1 feature detection on input file and saves output. TODO fill
 	in more.
 
 	Parameters
 	----------
 	file_name : str
-		Name of mzML files
+		Name of mzML file to convert to MS1 feature file.
 	folder_loc : str
-		Location of folder to save output file
+		Location of folder to save output file.
+	top_n : int
+		Top N most intense MS1 features to save.
 
 	Returns
 	-------
@@ -96,17 +97,27 @@ def peakPick(file_name, folder_loc):
 			pTIC = round(pTicList[curIndex-1],4)
 
 		if pTIC >= min_pTIC and pTIC <= max_pTIC:
-			feature = (curMz,curIntens,curRt,pTIC,curCharge)
+			feature = (curMz, curIntens, curRt, pTIC, curCharge)
 			featureList.append(feature)
 
+	# TODO the version that we ran for the paper on calculated pTIC
+	# on features that were kept (ie denom only contained top N intensity)
+	# This is kind of odd and doesn't feel right Need to test if this is better.
+
+	# sort feature list by intensity
+	featureList.sort(key=lambda x:x[1], reverse=True)
+
+	# keep N most intense
+	intens_features = featureList[0:top_n]
+
 	# sort feature list by m/z
-	featureList.sort(key=lambda x:x[0])
+	intens_features.sort(key=lambda x:x[0])
 
 	# print MS1 peak file
 	newFileName = folder_loc + "/" + str(Path(file_name).stem) +\
 "_ms1Peak.txt"
 	with open(newFileName,'w') as newFile:
 		newFile.write("mz\tintensity\tRT\tpTIC\tcharge\n")
-		for item in featureList:
+		for item in intens_features:
 			printLine = '\t'.join(str(x) for x in item)
-			newFile.write(printLine+'\n')
+			newFile.write(printLine + '\n')
