@@ -1,11 +1,10 @@
 from pyopenms import *
-import argparse
+from pathlib import Path
 import bisect
-from os.path import basename
-import re
+import logging
 
-ext1 = '\.mzML\.gz'
-ext2 = '\.mzML'
+LOGGER = logging.getLogger(__name__)
+
 min_pTIC = .05
 max_pTIC = .95
 
@@ -23,13 +22,26 @@ def calcTIC(exp):
 			tic += sum(i)
 	return(tic)
 
-def peakPick(fileName):
+def peakPick(file_name, folder_loc):
+	"""Performs MS1 feature detection on input file and saves output. TODO fill
+	in more.
+
+	Parameters
+	----------
+	file_name : str
+		Name of mzML files
+	folder_loc : str
+		Location of folder to save output file
+
+	Returns
+	-------
+	"""
 	fh = MzMLFile()
 	fh.setOptions(options)
 
 	# Load data
 	input_map = MSExperiment()
-	fh.load(fileName, input_map)
+	fh.load(file_name, input_map)
 
 	# calc TIC
 	totalTic = calcTIC(input_map)
@@ -38,6 +50,7 @@ def peakPick(fileName):
 	rtList = []
 	pTicList = []
 	sumTIC = 0.0
+	LOGGER.info("Converting TIC to pTIC")
 	for scan in input_map:
 		if scan.getMSLevel() == 1:
 			mz, i = scan.get_peaks()
@@ -45,8 +58,6 @@ def peakPick(fileName):
 			rtList.append(scan.getRT())
 			pTicList.append(sumTIC/totalTic)
 			sumTIC += sum(i)
-	print("Finished converting TIC to pTIC")
-	print()
 
 	input_map.updateRanges()
 	ff = FeatureFinder()
@@ -61,7 +72,7 @@ def peakPick(fileName):
 	features.setUniqueIds()
 	fh = FeatureXMLFile()
 	#fh.store("output.featureXML", features)
-	print("Found", features.size(), "features")
+	LOGGER.info("Found %s features", features.size())
 
 	# get info for each feature 
 	featureList = []
@@ -92,17 +103,10 @@ def peakPick(fileName):
 	featureList.sort(key=lambda x:x[0])
 
 	# print MS1 peak file
-	newFileName = re.sub(ext1,'',basename(fileName))
-	newFileName = re.sub(ext2,'',newFileName)+"_ms1Peak.txt"
+	newFileName = folder_loc + "/" + str(Path(file_name).stem) +\
+"_ms1Peak.txt"
 	with open(newFileName,'w') as newFile:
 		newFile.write("mz\tintensity\tRT\tpTIC\tcharge\n")
 		for item in featureList:
 			printLine = '\t'.join(str(x) for x in item)
 			newFile.write(printLine+'\n')
-
-
-if __name__ == "__main__":
-	parser = argparse.ArgumentParser(description='Take as input a mzML file. Run OpenMS for MS1 peak detection.')
-	parser.add_argument('mzMLFile',help='mzML file')
-	args = parser.parse_args()
-	peakPick(args.mzMLFile)
