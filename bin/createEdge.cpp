@@ -5,6 +5,7 @@
 #include <sstream>
 #include <chrono>
 #include <assert.h>
+#include <algorithm>
 using namespace std;
 
 // Inputs
@@ -19,6 +20,30 @@ using namespace std;
 int numCols = 5;
 int pTicCol = 3;
 int chargeCol= 4;
+
+struct edge_struct {
+	int leftIndex;
+	int rightIndex;
+	double mzDiff;
+	double ticDiff;
+	double leftFileRT;
+};
+
+bool cmp_edge(const edge_struct& edge1, const edge_struct& edge2)
+{
+	if (edge1.leftFileRT < edge2.leftFileRT) {
+		return true;
+	}
+	else if (edge1.leftFileRT == edge2.leftFileRT) {
+		if (edge1.leftIndex < edge2.leftIndex)
+			return true;
+		else
+			return false;
+	}
+	else {
+		return false;
+	}
+}
 
 std::string readFileToMatrix(const std::string& fileName,
                       std::vector<double>& lines) {
@@ -63,17 +88,13 @@ int main(int argc, char * argv[])
 
 	std::vector<double> file1Vector;
 	std::vector<double> file2Vector;
-
-	// create stream for file writing
-	std::ofstream outFile(outFileName);
+	std::vector<edge_struct> edgeVector;
 
 	std::string header;
 	header = readFileToMatrix(fileName1,file1Vector);
 	readFileToMatrix(fileName2,file2Vector);
 
-	// write header to file
 	std::cout << fileName1 << "\t" << fileName2 << std::endl;
-	outFile << "leftFileIndex\trightFileIndex\tmzDiff\tticDiff\tleftFileRT" << std::endl;
 
 	// calc number of rows
 	int numRowsFile1 = file1Vector.size() / numCols;
@@ -127,7 +148,6 @@ int main(int argc, char * argv[])
 			}
 		}
 
-		// write to file
 		for (int k=startIndex; k<=endIndex; k++) {
 			// header line is skipped when reading in file
 			mzDiff = calcPpmDiff(leftMz,file2Vector[numCols*k]);
@@ -148,20 +168,30 @@ int main(int argc, char * argv[])
 				continue;
 			}
 
-			outFile << i << '\t'; // left file line index
-			outFile << k << '\t'; // right file line index
-			outFile << mzDiff << '\t'; 
-			outFile << ticDiff <<  '\t'; 
-			outFile << file1Vector[numCols*i + pTicCol];
-			outFile << std::endl;
-			edgeCnt += 1;
+			edge_struct newEdge;
+			newEdge.leftIndex = i;
+			newEdge.rightIndex = k;
+			newEdge.mzDiff = mzDiff;
+			newEdge.ticDiff = ticDiff;
+			newEdge.leftFileRT = file1Vector[numCols*i + pTicCol];
+			edgeVector.push_back(newEdge);
 		}
+	}
 
-		//if (i%50000==0) {
-		//	auto timeNow = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-		//	std::cout << i << '\t' << ctime(&timeNow);
-		//}
-
+	// sort edges by retention time of the feaure in the left file
+	// and write edges to output file
+	std::ofstream outFile(outFileName);
+	outFile << "leftFileIndex\trightFileIndex\tmzDiff\tticDiff\tleftFileRT" <<
+			   std::endl;
+	std::sort(edgeVector.begin(), edgeVector.end(), cmp_edge);
+	for (auto edge=edgeVector.begin(); edge!=edgeVector.end(); ++edge) {
+		outFile << (*edge).leftIndex << '\t'; // left file line index
+		outFile << (*edge).rightIndex << '\t'; // right file line index
+		outFile << (*edge).mzDiff << '\t';
+		outFile << (*edge).ticDiff <<  '\t';
+		outFile << (*edge).leftFileRT;
+		outFile << std::endl;
+		edgeCnt += 1;
 	}
 	outFile.close();
 

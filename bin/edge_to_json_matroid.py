@@ -1,10 +1,7 @@
 import argparse
 import json
-import os.path
 import re
-
-fileExt=".txt"
-outputFolder="matroidFile"
+from pathlib import Path
 
 leftFeatureCol = 0
 rightFeatureCol = 1
@@ -36,14 +33,9 @@ def makeJson(leftDic,rightDic,limit=1,name="bipartite graph"):
 				  }	
 	return(json_object)
 
-def createJsonMatroid(inputFileName):
-	if os.path.isdir(outputFolder) == False:
-		os.mkdir(outputFolder)
-	
-	newFileName = os.path.basename(inputFileName)
-	newFileName = re.sub(fileExt,'',newFileName)
-	newFileName = outputFolder+ "/" + newFileName + "___matroid.json"
-	if os.path.exists(newFileName):
+def createJsonMatroid(inputFileName, outputFolder):
+	newFileName = outputFolder+ "/" + str(inputFileName.stem) + "___matroid.json"
+	if Path(newFileName).is_file():
 		return
 
 	# dic shows which edges are assciated with each MS1 feature
@@ -76,9 +68,3 @@ def createJsonMatroid(inputFileName):
 	json_object = makeJson(leftFeatureEdgeDic,rightFeatureEdgeDic)
 	with open(newFileName,'w') as newFile:
 		newFile.write(json.dumps(json_object,indent=2))
-	
-if __name__ == "__main__":
-	parser = argparse.ArgumentParser(description='From edge file create json matroid constraint')
-	parser.add_argument("inputFile",help='Input edge file')
-	args = parser.parse_args()
-	createJsonMatroid(args.inputFile)
