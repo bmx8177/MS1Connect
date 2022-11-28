@@ -8,7 +8,7 @@ from pathlib import Path
 # clean file name needs to be changed
 def cleanFileName(fileName):
 	fileName = str(Path(fileName).stem)
-	fileName = re.sub('_ms1Peak.txt','',fileName)
+	fileName = re.sub('_ms1Peak','',fileName)
 	return(fileName)
 
 def create_edges(inputFolderName,outputFolderName,binaryPath, mz_tol,\

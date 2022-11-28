@@ -137,8 +137,8 @@ def getLeftRightFile(fullFileName,folderName):
 	Output: Left and right MS1 feature file name
 	"""
 	fullFileName_sp = fullFileName.split('___')
-	leftFileName = folderName + fullFileName_sp[leftFileIndex] + ms1FeatureExt
-	rightFileName = folderName + fullFileName_sp[rightFileIndex] + ms1FeatureExt
+	leftFileName = folderName + "/" + fullFileName_sp[leftFileIndex] + ms1FeatureExt
+	rightFileName = folderName + "/" + fullFileName_sp[rightFileIndex] + ms1FeatureExt
 	return(leftFileName,rightFileName)
 
 
@@ -212,21 +212,4 @@ def createEdgeSimMatrix(edgeFileName,peakFolderName,outputFolderName, \
 
 	print(edgeFileName_basename,nRow,rowList_np.size,postNormVal)
 	scipy.sparse.save_npz(newFileName, sparseMat,compressed=False)
-
-if __name__  == "__main__":
-	parser = argparse.ArgumentParser(description='Input is a list of edges. Output is a .npy of a sparse edge similarity matrix.')
-	parser.add_argument("edgeFile",help='File containing list of edges. Files sorted by left RT')
-	parser.add_argument("peakFolder",help='Folder containing MS1 feature files')
-	parser.add_argument("outputFolder",help='Folder to put output files')
-	parser.add_argument("lambda1",help='lambda 1 hyperparameter',type=float)
-	parser.add_argument("lambda2",help='lambda 2 hyperparameter',type=float)
-	parser.add_argument("lambda3",help='lambda 3 hyperparameter',type=float)
-	parser.add_argument("lambda4",help='lambda 4 hyperparameter',type=float)
-	parser.add_argument("alpha1",help='alpha 1 hyperparameter',type=float)
-	parser.add_argument("alpha2",help='alpha 2 hypereparameter',type=float)
-	parser.add_argument("alpha3",help='alpha 3 hyperparameter',type=float)
-	args = parser.parse_args()
-	createEdgeSimMatrix(args.edgeFile,args.peakFolder,args.outputFolder, \
-						args.lambda1,args.lambda2,args.lambda3,args.lambda4, \
-						args.alpha1,args.alpha2,args.alpha3)
-	
+	return(edgeFileName_basename,nRow,rowList_np.size,postNormVal)
