@@ -47,3 +47,6 @@ In addition the following Python packages are required:
 - Pandas
 - Numba
 - Scipy
+- Scikit-learn
+- Matplotlib
+- Seaborn
