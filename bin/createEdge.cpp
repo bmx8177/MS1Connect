@@ -195,8 +195,8 @@ int main(int argc, char * argv[])
 	}
 	outFile.close();
 
-	std::cout << "nrow: " << numRowsFile1 << '\t' << numRowsFile2 << std::endl;
-	std::cout << "Total # edges: " << edgeCnt << std::endl;
-	std::cout << "Done" << std::endl << std::endl;
+	//std::cout << "nrow: " << numRowsFile1 << '\t' << numRowsFile2 << std::endl;
+	//std::cout << "Total # edges: " << edgeCnt << std::endl;
+	//std::cout << "Done" << std::endl << std::endl;
 	return 0;
 }
