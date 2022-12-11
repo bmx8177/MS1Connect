@@ -1,7 +1,5 @@
 # MS1Connect
 
-**9 June 2022: Thanks for those who chatted with me at ASMS. Please note that this version of MS1Connect is not fully functional at this time. We hope to upload the remaining code within a week or so. If you want me to try MS1Connect on your data please contact me and I will be happy to help.**
-
 MS1Connect is a tool that scores the similarity between a pair of mass
 spectrometry runs. This task is particularly challenging because data can be
 acquired under different experimental procotols. MS1Connect solves this problem
@@ -16,6 +14,22 @@ Before you run ms1connect.py you must run the makefile. You can do this by
 running the following command.
 ```
 make
+```
+
+## Running MS1Connect
+Before running MS1Connect we highly suggest you create a new enviroment (such as
+conda).
+
+The inputs to MS1Connect is a set of MS1 features files. MS1Connect can generate
+these files for you using pyOpenMS by providing a folder of mzML files. If you
+prefer to use your own MS1 feature detection method you can instead provide a
+folder of MS1 feature files that contains the following columns: m/z, intensity,
+retention time, noramlized retention time (proportion of TIC), and charge.
+
+Running MS1Connect requires running the ms1connect.py script. You can see how to
+run this script by running the following command.
+```
+python ms1connect.py -h
 ```
 
 ## Citing
