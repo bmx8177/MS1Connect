@@ -34,7 +34,10 @@ python ms1connect.py -h
 
 ## Citing
 If you use MS1Connect in your work please cite:
->https://www.biorxiv.org/content/10.1101/2022.01.12.476125v1
+>Lin A, Deatherage Kaiser BL, Hutchison JR, Bilmes JA, Noble WS. MS1Connect: a
+>mass spectrometry run similarity measure. Bioinformatics. 2023 Feb 3;39(2)
+
+The manuscript describing MS1Connect can be found <a href="https://academic.oup.com/bioinformatics/article/39/2/btad058/7005198">here</a>.
 
 ## Dependencies
 MS1Connect requires the following:
