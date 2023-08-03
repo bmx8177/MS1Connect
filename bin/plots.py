@@ -70,7 +70,8 @@ def plotMDS(runMatrix, metadata_label, output_folder):
 	"""
     # MDS of run sim matrix
 	dist = euclidean_distances(runMatrix)
-	model = MDS(dissimilarity='precomputed',n_components=2,random_state=0)
+	model = MDS(dissimilarity='precomputed',n_components=2,random_state=0,
+			    normalized_stress="auto")
 	out = model.fit_transform(dist)
 
     # normal MDS

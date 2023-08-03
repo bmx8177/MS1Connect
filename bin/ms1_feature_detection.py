@@ -102,7 +102,8 @@ def peakPick(file_name, folder_loc, top_n):
 
 	# TODO the version that we ran for the paper on calculated pTIC
 	# on features that were kept (ie denom only contained top N intensity)
-	# This is kind of odd and doesn't feel right Need to test if this is better.
+	# This is kind of odd and doesn't feel right
+	# Need to test if this is better.
 
 	# sort feature list by intensity
 	featureList.sort(key=lambda x:x[1], reverse=True)

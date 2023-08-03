@@ -45,6 +45,9 @@ def ms1Connect(mzml_folder, ms1_folder, edge_folder, matroid_folder,
 	Returns
 	-------
 	'''
+	if Path(ms1_folder).exists() == False:
+		Path(ms1_folder).mkdir()
+
 	# Perform MS1 feature detection on mzML files
 	# Keeps top N most intense MS1 features per file
 	# Writes each output file to disk
