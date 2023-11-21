@@ -54,8 +54,8 @@ def ms1Connect(mzml_folder, ms1_folder, edge_folder, matroid_folder,
 		ms1_feature_detection.peakPick(str(f), ms1_folder, top_n)
 
 	# Generate set of edges from each pair of runs
-	create_edge.create_edges(ms1_folder, edge_folder, "bin/createEdge", mz_tol,
-		tic_tol)
+	create_edge.create_edges(ms1_folder, edge_folder, 
+		str(Path(__file__).resolve().parent)+"/bin/createEdge", mz_tol, tic_tol)
 
 	# Generate matroid file for each edge file
 	if Path(matroid_folder).is_dir() == False:
@@ -86,11 +86,14 @@ def ms1Connect(mzml_folder, ms1_folder, edge_folder, matroid_folder,
 			# log file can be directly generated from coopraize using the below
 			# -flogfilename /output/coopraiz_log.txt
 			cmd = "singularity exec --bind ./:/input/ --bind " +\
-			"./:/output/ bin/coopraiz-singularity " +\
+			"./:/output/ " + str(Path(__file__).resolve().parent) +\
+			"/bin/coopraiz-singularity " +\
 			"/submarine/build/opic-coopraiz -spssdfilename /input/" +\
 			edge_sim_folder + "/" + npz_file + " -imjson /input/" +\
 			matroid_folder + "/" + matroid_file + " -cloglevel info " +\
 			"-ctrl-logsolution -flogtruncate false"
+
+			#TODO fail gracefully if coopraize docker has expired
 		
 			file2.write("filename___" + f.stem + "\n")	
 			result = subprocess.run(cmd, shell=True, capture_output=True)
