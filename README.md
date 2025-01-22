@@ -43,7 +43,7 @@ The manuscript describing MS1Connect can be found <a href="https://academic.oup.
 MS1Connect requires the following:
 - Python
 - C++ (gcc)
-- Singularity/Docker
+- Singularity
 
 In addition the following Python packages are required:
 - pyOpenMS
