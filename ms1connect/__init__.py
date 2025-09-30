@@ -1,8 +1,8 @@
 """
 MS1Connect: A tool that scores the similarity between a pair of mass spectrometry runs.
 
-MS1Connect solves the challenging problem of comparing mass spectrometry data acquired 
-under different experimental protocols by framing it as a maximum bipartite matching 
+MS1Connect solves the challenging problem of comparing mass spectrometry data acquired
+under different experimental protocols by framing it as a maximum bipartite matching
 problem and using only data from intact peptide (MS1) scans.
 """
 
@@ -17,8 +17,4 @@ from .edge_matrix import *
 from .pairwise_edge_matrix import *
 from .plots import *
 
-__all__ = [
-    '__version__',
-    '__author__', 
-    '__email__'
-]
+__all__ = ["__version__", "__author__", "__email__"]
