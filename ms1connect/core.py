@@ -105,7 +105,8 @@ def ms1Connect(mzml_folder, ms1_folder, edge_folder, matroid_folder,
 							 "pairwise-edge.log.txt", output_folder)
 
 
-if __name__ == "__main__":
+def main():
+	"""Entry point for the MS1Connect command-line interface."""
 	parser = argparse.ArgumentParser(description="Runs MS1Connect on a set of \
 mzML files.")
 	parser.add_argument("mzml", help="Folder containing mzML files")
@@ -143,3 +144,7 @@ mzML files.")
 			   args.output, args.topN, args.mzTol, args.ticTol, args.metadata,
 			   args.lambda1, args.lambda2, args.lambda3, args.lambda4,
 			   args.alpha, args.beta, args.gamma)
+
+
+if __name__ == "__main__":
+	main()

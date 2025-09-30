@@ -52,7 +52,7 @@ Repository = "https://github.com/bmx8177/MS1Connect"
 Documentation = "https://github.com/bmx8177/MS1Connect#readme"
 
 [project.scripts]
-ms1connect = "ms1connect.core:ms1Connect"
+ms1connect = "ms1connect.core:main"
 
 [tool.setuptools]
 packages = ["ms1connect"]
