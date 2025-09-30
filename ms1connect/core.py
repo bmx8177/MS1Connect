@@ -1,11 +1,11 @@
 import argparse
 import subprocess
 from pathlib import Path
-from bin import ms1_feature_detection
-from bin import create_edge
-from bin import edge_to_json_matroid
-from bin import pairwise_edge_matrix
-from bin import plots
+from . import ms1_feature_detection
+from . import create_edge
+from . import edge_to_json_matroid
+from . import pairwise_edge_matrix
+from . import plots
 
 
 def ms1Connect(mzml_folder, ms1_folder, edge_folder, matroid_folder,

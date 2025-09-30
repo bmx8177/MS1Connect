@@ -1,0 +1,65 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ms1connect"
+dynamic = ["version"]
+description = "A tool that scores the similarity between a pair of mass spectrometry runs."
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Andy", email = "22140743+bmx8177@users.noreply.github.com"}
+]
+maintainers = [
+    {name = "Andy", email = "22140743+bmx8177@users.noreply.github.com"}
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Operating System :: OS Independent",
+]
+keywords = ["mass-spectrometry", "bioinformatics", "proteomics", "similarity-matching"]
+requires-python = ">=3.11"
+dependencies = [
+    "pyOpenMS==2.9.1",
+    "pandas>=2.2.3",
+    "numba>=0.59.1",
+    "scipy>=1.15.0",
+    "scikit-learn>=1.6.1",
+    "matplotlib>=3.9.1",
+    "seaborn>=0.13.2"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "pytest-cov",
+    "black",
+    "flake8",
+    "twine",
+    "build"
+]
+
+[project.urls]
+Homepage = "https://github.com/bmx8177/MS1Connect"
+Repository = "https://github.com/bmx8177/MS1Connect"
+"Bug Reports" = "https://github.com/bmx8177/MS1Connect/issues"
+Documentation = "https://github.com/bmx8177/MS1Connect#readme"
+
+[project.scripts]
+ms1connect = "ms1connect.core:ms1Connect"
+
+[tool.setuptools]
+packages = ["ms1connect"]
+include-package-data = true
+
+[tool.setuptools.dynamic]
+version = {attr = "ms1connect.__version__"}
+
+[tool.setuptools.package-data]
+ms1connect = ["*.cpp", "*.h", "coopraiz-singularity"]

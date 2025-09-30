@@ -1,0 +1,14 @@
+include README.md
+include LICENSE
+include CHANGELOG.md
+include makefile
+recursive-include ms1connect *.cpp
+recursive-include ms1connect *.h
+recursive-include ms1connect coopraiz-singularity
+global-exclude *.pyc
+global-exclude __pycache__
+global-exclude .DS_Store
+global-exclude *.so
+prune build
+prune dist
+prune *.egg-info
