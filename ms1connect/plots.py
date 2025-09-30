@@ -56,7 +56,7 @@ def getFileList(ms1_folder, metadataFileName):
     if ms1_file_dic.keys() != metadata_file_dic.keys():
         raise Exception(
             "The number of MS1 files does not match number of \
-lines in "
+            lines in "
             + metadataFileName
         )
 
@@ -120,17 +120,11 @@ def plotHeatmap(inputRunMatrix, tick_label, output_folder):
     plt.close(fig)
 
 
-# 	fig = sns.clustermap(inputRunMatrix, xticklabels=tickLabel,
-# 						 yticklabels=tickLabel, vmax=vmax)
-# 	fig.savefig("heatmap-dendogram.png")
-# 	plt.close()
-
-
 ###############################################################################
 def fillInSimMatrixCooprize(ms1FileList, scoreFile, matrix):
     """
         Fill in run similarity matrix based on cooprize output file
-    Fill in run similarity matrix based on baseline output file
+        Fill in run similarity matrix based on baseline output file
         Input1: List of ordered file names (same run order as matrix)
         Input2: output of baseline score file
         Input3: run similarity matrix to be filled in
